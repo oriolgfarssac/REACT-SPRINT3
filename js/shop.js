@@ -60,8 +60,8 @@ function reset(){
 // Exercise 3
 function calculateTotal() {
   //Este bucle sirve para sumar el precio de todos los productos dentro de array cartList.
-  cartList.forEach(products => {
-    preuTotal += products.price;
+  cart.forEach(products => {
+    preuTotal += products.subtotalWithDiscount;
   })
   document.getElementById('total_price').innerHTML = preuTotal;   
 
@@ -97,14 +97,18 @@ function generateCart() {
 
 // Exercise 5
 function applyPromotionsCart() {
-  for (let product2 of cart) {
-    if (product2.id === 1 && product2.quantity >= 3) {
-      product2.price = 8.4;
-    }
-    if (product2.id === 3 && product2.quantity >= 10) {
-      product2.price = 2.4;
-    }
+cart.forEach(product => {
+  if (product.id === 1 && product.quantity >= 3) {
+    product.price = 8.4;
+    let total = Number(8.4 * product.quantity);
+    product.subtotalWithDiscount = total;
   }
+  if (product.id === 3 && product.quantity >= 10) {
+    product.price = 2.4;
+    let total = Number(2.4 * product.quantity);
+    product.subtotalWithDiscount = total;
+  }
+})
   // Apply promotions to each item in the array "cart"
 }
 
@@ -163,6 +167,7 @@ function removeFromCart(id) {
 }
 
 function open_modal() {
+  applyPromotionsCart();
   calculateTotal();
   printCart();
   console.log("Open Modal");
