@@ -72,14 +72,18 @@ function generateCart() {
   cart = [];
   cartList.forEach(product => {
     const existingItem = cart.find(item => item.id === product.id);
+    
     if (existingItem) {
       existingItem.quantity++;
+      let total = existingItem.price * existingItem.quantity;
+      existingItem.subtotalWithDiscount = total;
     } else {
+      let total = product.price;
       const newProd = {
         ...product,
         quantity: 1,
         subtotal: 31.5,
-        subtotalWithDiscount: 30,
+        subtotalWithDiscount: total,
       };
       cart.push(newProd);
     }
