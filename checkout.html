@@ -77,12 +77,12 @@
 				<h3 class="my-3 bord shadow text-center"><i class="fas fa-stopwatch p-2"></i>Delivery on time</h3>
 			</div>
 		</div>
-		<form class="form">
+		<form class="form" onsubmit="return false">
 			<div class="row bord p-5 shadow m-5">
 				<div class="col-sm-6">
 					<div class="mt-3">
 						<label for="fName" class="form-label">First Name:</label>
-						<input id="fName" class="form-control ml-3" type="text" placeholder="First Name" />
+						<input id="fName" class="form-control ml-3" type="text" placeholder="First Name" minlength="3"/>
 						<div id="errorName" class="invalid-feedback">This field is required and must have, at least, 3 characters
 						</div>
 					</div>
@@ -108,13 +108,13 @@
 					</div>
 					<div class="mt-3">
 						<label for="fPassword" class="form-label">Password:</label>
-						<input id="fPassword" class="form-control" title="(4-8 characters)" type="password" minlength="4"
+						<input id="fPassword" class="form-control" title="(4-8 characters)" type="password" minlength="3"
 							maxlength="8" placeholder="Password" />
 						<div id="errorPassword" class="invalid-feedback">Enter a correct password</div>
 					</div>
 					<div class="mt-3">
 						<label for="fPhone" class="form-label">Phone Number:</label>
-						<input id="fPhone" class="form-control" type="number" placeholder="Phone No." />
+						<input id="fPhone" class="form-control" type="number" placeholder="Phone No." minlength="9"/>
 						<div id="errorPhone" class="invalid-feedback">Invalid phone number!! Must be 9 digits with no letters</div>
 					</div>
 				</div>

@@ -1,125 +1,166 @@
-// If you have time, you can move this variable "products" to a json or js file and load the data in this js. It will look more professional
-var products = [
-   {
-        id: 1,
-        name: 'cooking oil',
-        price: 10.5,
-        type: 'grocery',
-        offer: {
-            number: 3,
-            percent: 20
-        }
-    },
-    {
-        id: 2,
-        name: 'Pasta',
-        price: 6.25,
-        type: 'grocery'
-    },
-    {
-        id: 3,
-        name: 'Instant cupcake mixture',
-        price: 5,
-        type: 'grocery',
-        offer: {
-            number: 10,
-            percent: 30
-        }
-    },
-    {
-        id: 4,
-        name: 'All-in-one',
-        price: 260,
-        type: 'beauty'
-    },
-    {
-        id: 5,
-        name: 'Zero Make-up Kit',
-        price: 20.5,
-        type: 'beauty'
-    },
-    {
-        id: 6,
-        name: 'Lip Tints',
-        price: 12.75,
-        type: 'beauty'
-    },
-    {
-        id: 7,
-        name: 'Lawn Dress',
-        price: 15,
-        type: 'clothes'
-    },
-    {
-        id: 8,
-        name: 'Lawn-Chiffon Combo',
-        price: 19.99,
-        type: 'clothes'
-    },
-    {
-        id: 9,
-        name: 'Toddler Frock',
-        price: 9.99,
-        type: 'clothes'
-    }
-]
 // Array with products (objects) added directly with push(). Products in this array are repeated.
-var cartList = [];
+let cartList = [];
 
 // Improved version of cartList. Cart is an array of products (objects), but each one has a quantity field to define its quantity, so these products are not repeated.
-var cart = [];
+let cart = [];
 
-var total = 0;
+//Variable que guarda el numero de productos que tienes en el carrito.
+let total = 0;
+
+//Variable que guarda el precio total del carrito, osea la suma de el precio de los productos del array cart.
+let preuTotal = 0;
 
 // Exercise 1
 function buy(id) {
-    // 1. Loop for to the array products to get the item to add to cart
-    // 2. Add found product to the cartList array
+
+  //Añade +1 a el contador para que veas cuantos productos tienes en el carrito.
+  total ++;
+  document.getElementById('count_product').innerHTML= total;
+  
+  //Al clicar depende de el boton envia un id 1,2,3... que con el filter busca en el array de productos y lo compara con los id hasta que lo encuentra y lo añade a el array cartList.
+  const trobar = products.filter((item) => item.id === id);
+  cartList.push(...trobar);
+  console.log(cartList);
+  
+  //Se llama a la funcion de generar el carrito así se va actualizando automaticamente cada vez que añades un producto.
+  generateCart();
+
 }
+
+
 
 // Exercise 2
 function cleanCart() {
+  
+  //Reinicia el array de cartList haciendo que este vacio.
+  cartList = [];
 
+  //Reinicia el array de cart haciendo que este vacio.
+  cart = [];
+
+  //Reinicia la variable de el precio total de los productos dandole de valor 0. I tambien lo imprime en pantalla para que se vea actualizado no solo en el javascript sino en html.
+  preuTotal = 0;
+  document.getElementById('total_price').innerHTML = preuTotal;
+
+  //Reinicia la variable total que es el contador de productos del carrito, dandole valor 0. I tambien lo imprime por pantalla.
+  total = 0;
+  document.getElementById('count_product').innerHTML = total;
+
+  //Sirve para comprovar que los arrays esten vacios.
+  console.log(cartList);
+  console.log(cart);
+
+}
+
+//Esta mini funcion sirve para reiniciar el valor de precio total.
+function reset(){
+  preuTotal = 0;
 }
 
 // Exercise 3
 function calculateTotal() {
-    // Calculate total price of the cart using the "cartList" array
+  //Este bucle sirve para sumar el precio de todos los productos dentro de array cartList.
+  cartList.forEach(products => {
+    preuTotal += products.price;
+  })
+  document.getElementById('total_price').innerHTML = preuTotal;   
+
 }
 
 // Exercise 4
 function generateCart() {
-    // Using the "cartlist" array that contains all the items in the shopping cart, 
-    // generate the "cart" array that does not contain repeated items, instead each item of this array "cart" shows the quantity of product.
+  cart = [];
+  cartList.forEach(product => {
+    const existingItem = cart.find(item => item.id === product.id);
+    if (existingItem) {
+      existingItem.quantity++;
+    } else {
+      const newProd = {
+        ...product,
+        quantity: 1,
+        subtotal: 31.5,
+        subtotalWithDiscount: 30,
+      };
+      cart.push(newProd);
+    }
+  });
+  
+  console.log(cart);
+  return cart;
+  // Using the "cartlist" array that contains all the items in the shopping cart,
+  // generate the "cart" array that does not contain repeated items, instead each item of this array "cart" shows the quantity of product.
 }
 
 // Exercise 5
 function applyPromotionsCart() {
-    // Apply promotions to each item in the array "cart"
+  for (let product2 of cart) {
+    if (product2.id === 1 && product2.quantity >= 3) {
+      product2.price = 8.4;
+    }
+    if (product2.id === 3 && product2.quantity >= 10) {
+      product2.price = 2.4;
+    }
+  }
+  // Apply promotions to each item in the array "cart"
 }
 
 // Exercise 6
 function printCart() {
-    // Fill the shopping cart modal manipulating the shopping cart dom
-}
+    document.getElementById('table').innerHTML ="";
+    let table = document.getElementById('table');
+    let row = table.insertRow(0);
+    let cell1 = row.insertCell(0);
+    let cell2 = row.insertCell(1);
+    let cell3 = row.insertCell(2);
+    let cell4 = row.insertCell(3);
+    let text1 = document.createTextNode('Product');
+    let text2 = document.createTextNode('Price');
+    let text3 = document.createTextNode('Qty.');
+    let text4 = document.createTextNode('Total (with discount)');
+    cell1.appendChild(text1);
+    cell2.appendChild(text2);
+    cell3.appendChild(text3);
+    cell4.appendChild(text4);
+    cart.forEach(product => {
+    let table = document.getElementById('table');
+    
+    let row = table.insertRow(-1);
+    let cell1 = row.insertCell(0);
+    let cell2 = row.insertCell(1);
+    let cell3 = row.insertCell(2);
+    let cell4 = row.insertCell(3);
 
+    let text1 = document.createTextNode(product.name);
+    let text2 = document.createTextNode(product.price);
+    let text3 = document.createTextNode(product.quantity);
+    let text4 = document.createTextNode(product.subtotalWithDiscount);
+
+    cell1.appendChild(text1);
+    cell2.appendChild(text2);
+    cell3.appendChild(text3);
+    cell4.appendChild(text4);
+    })
+  // Fill the shopping cart modal manipulating the shopping cart dom
+}
 
 // ** Nivell II **
 
 // Exercise 7
 function addToCart(id) {
-    // Refactor previous code in order to simplify it 
-    // 1. Loop for to the array products to get the item to add to cart
-    // 2. Add found product to the cart array or update its quantity in case it has been added previously.
+  // Refactor previous code in order to simplify it
+  // 1. Loop for to the array products to get the item to add to cart
+  // 2. Add found product to the cart array or update its quantity in case it has been added previously.
 }
 
 // Exercise 8
 function removeFromCart(id) {
-    // 1. Loop for to the array products to get the item to add to cart
-    // 2. Add found product to the cartList array
+  // 1. Loop for to the array products to get the item to add to cart
+  // 2. Add found product to the cartList array
 }
 
-function open_modal(){
-	console.log("Open Modal");
-	printCart();
+function open_modal() {
+  calculateTotal();
+  printCart();
+  console.log("Open Modal");
+
 }
