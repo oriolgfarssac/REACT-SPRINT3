@@ -129,6 +129,7 @@ function printCart() {
     cell2.appendChild(text2);
     cell3.appendChild(text3);
     cell4.appendChild(text4);
+    
     cart.forEach(product => {
     let table = document.getElementById('table');
     
